@@ -1,0 +1,4 @@
+# Keep line endings right so the wrapper runs on every OS
+gradlew     text eol=lf
+*.bat       text eol=crlf
+*.jar       binary
