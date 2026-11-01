@@ -34,4 +34,10 @@ class BillCalculatorTest {
         val bill = calculator.calculate(consultationFee = BigDecimal("1500"), discountPercent = 10)
         assertEquals(BigDecimal("1512.00"), bill.totalAmount)
     }
+
+    @Test
+    fun `patient pays 10 percent of the total bill`() {
+        val bill = calculator.calculate(consultationFee = BigDecimal("1500"), discountPercent = 10)
+        assertEquals(BigDecimal("151.20"), bill.copayAmount)
+    }
 }
