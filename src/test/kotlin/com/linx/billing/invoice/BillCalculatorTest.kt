@@ -1,5 +1,6 @@
 package com.linx.billing.invoice
 
+import com.linx.billing.insurance.Insurance
 import com.linx.billing.tax.Gst
 import java.math.BigDecimal
 import kotlin.test.Test
@@ -7,7 +8,7 @@ import kotlin.test.assertEquals
 
 class BillCalculatorTest {
 
-    private val calculator = BillCalculator(Gst());
+    private val calculator = BillCalculator(Gst(), Insurance());
 
     @Test
     fun `discount is applied before gst`() {
@@ -21,6 +22,8 @@ class BillCalculatorTest {
                 taxableAmount = BigDecimal("1455.00"),
                 gstAmount = BigDecimal("174.60"),
                 totalAmount = BigDecimal("1629.60"),
+                insuranceApprovedAmount = BigDecimal("1466.64"),
+                copayAmount = BigDecimal("162.96"),
             ),
             bill,
         )

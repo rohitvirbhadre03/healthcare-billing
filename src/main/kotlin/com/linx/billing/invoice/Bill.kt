@@ -9,4 +9,6 @@ data class Bill(
     val taxableAmount: BigDecimal,
     val gstAmount: BigDecimal,
     val totalAmount: BigDecimal,
+    val insuranceApprovedAmount: BigDecimal,
+    val copayAmount: BigDecimal,
 )
