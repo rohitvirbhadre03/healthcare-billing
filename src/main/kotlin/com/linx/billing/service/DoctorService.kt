@@ -2,7 +2,9 @@ package com.linx.billing.service
 
 import com.linx.billing.model.Doctor
 import com.linx.billing.repository.DoctorRepository
+import jakarta.inject.Singleton
 
+@Singleton
 class DoctorService(private val doctorRepository: DoctorRepository) {
 
     fun register(doctor: Doctor): Doctor {

@@ -5,9 +5,11 @@ import com.linx.billing.model.Appointment
 import com.linx.billing.repository.AppointmentRepository
 import com.linx.billing.repository.DoctorRepository
 import com.linx.billing.repository.PatientRepository
+import jakarta.inject.Singleton
 import java.time.LocalDateTime
 import java.util.UUID
 
+@Singleton
 class AppointmentService(
     private val appointmentRepository: AppointmentRepository,
     private val patientRepository: PatientRepository,

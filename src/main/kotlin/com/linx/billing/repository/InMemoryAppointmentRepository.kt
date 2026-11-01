@@ -2,9 +2,11 @@ package com.linx.billing.repository
 
 import com.linx.billing.model.Appointment
 import com.linx.billing.model.AppointmentStatus
+import jakarta.inject.Singleton
 import java.time.LocalDateTime
 import java.util.concurrent.ConcurrentHashMap
 
+@Singleton
 class InMemoryAppointmentRepository : AppointmentRepository {
 
     private val appointments = ConcurrentHashMap<String, Appointment>()

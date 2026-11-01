@@ -3,10 +3,12 @@ package com.linx.billing.service
 import com.linx.billing.model.InsuranceInfo
 import com.linx.billing.model.Patient
 import com.linx.billing.repository.PatientRepository
+import jakarta.inject.Singleton
 import java.time.Clock
 import java.time.LocalDate
 import java.util.UUID
 
+@Singleton
 class PatientService(
     private val patientRepository: PatientRepository,
     private val clock: Clock = Clock.systemDefaultZone(),

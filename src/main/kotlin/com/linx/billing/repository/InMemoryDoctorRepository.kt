@@ -1,8 +1,10 @@
 package com.linx.billing.repository
 
 import com.linx.billing.model.Doctor
+import jakarta.inject.Singleton
 import java.util.concurrent.ConcurrentHashMap
 
+@Singleton
 class InMemoryDoctorRepository : DoctorRepository {
 
     private val doctors = ConcurrentHashMap<String, Doctor>()
