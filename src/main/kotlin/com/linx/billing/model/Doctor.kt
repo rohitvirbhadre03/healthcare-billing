@@ -11,5 +11,12 @@ data class Doctor(
     val speciality: Speciality,
     val practiceStartDate: LocalDate
 ) {
+
+    init {
+        require(firstName.isNotBlank()) { "First name is required" }
+        require(lastName.isNotBlank()) { "Last name is required" }
+        require(npi.isNotBlank()) { "NPI is required" }
+    }
+
     fun experience(date: LocalDate): Int = Period.between(practiceStartDate, date).years
 }
