@@ -1,14 +1,28 @@
 package com.linx.billing.invoice
 
+import com.linx.billing.discount.Discount
 import com.linx.billing.insurance.Insurance
+import com.linx.billing.model.Doctor
+import com.linx.billing.pricing.FeeStructure
+import com.linx.billing.pricing.FeeStructureTest
+import com.linx.billing.pricing.Speciality
 import com.linx.billing.tax.Gst
 import java.math.BigDecimal
+import java.time.LocalDate
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class BillCalculatorTest {
 
-    private val calculator = BillCalculator(Gst(), Insurance());
+    private val calculator = BillCalculator(FeeStructure(), Discount(), Gst(), Insurance());
+
+    private val cardio = Doctor(
+        firstName = "Pravin",
+        lastName = "Golande",
+        npi = "1234567890",
+        speciality = Speciality.CARDIO,
+        practiceStartDate = LocalDate.of(2000, 6, 15),
+    )
 
     @Test
     fun `discount is applied before gst`() {
@@ -40,4 +54,11 @@ class BillCalculatorTest {
         val bill = calculator.calculate(consultationFee = BigDecimal("1500"), discountPercent = 10)
         assertEquals(BigDecimal("151.20"), bill.copayAmount)
     }
+
+    @Test
+    fun `fee calculated from the doctors specialty and experience`() {
+        val bill = calculator.calculate(cardio, LocalDate.of(2025, 6, 15), priorVisits = 0)
+        assertEquals(BigDecimal("1500"), bill.consultationFee)
+    }
+
 }
