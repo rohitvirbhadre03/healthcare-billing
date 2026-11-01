@@ -1,4 +1,4 @@
-package insurance
+package com.linx.billing.insurance
 
 import com.linx.billing.insurance.Coverage
 import com.linx.billing.insurance.Insurance
