@@ -18,16 +18,16 @@ class PatientTest {
     @Test
     fun `first name is required`() {
         assertFailsWith<IllegalArgumentException> {
-            Patient(" ", "J", LocalDate.of(1990, 3, 15), insurance)
+            Patient("P1", " ", "J", LocalDate.of(1990, 3, 15), insurance)
         }
     }
 
     @Test
     fun `last name is required`() {
         assertFailsWith<IllegalArgumentException> {
-            Patient("P", "", LocalDate.of(1990, 3, 15), insurance)
+            Patient("P2", "P", "", LocalDate.of(1990, 3, 15), insurance)
         }
     }
 
-    private fun patient(dateOfBirth: LocalDate) = Patient("Priya", "Sharma", dateOfBirth, insurance)
+    private fun patient(dateOfBirth: LocalDate) = Patient("P2", "Priya", "Sharma", dateOfBirth, insurance)
 }

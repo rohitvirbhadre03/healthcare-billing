@@ -4,6 +4,7 @@ import java.time.LocalDate
 import java.time.Period
 
 data class Patient(
+    val id: String,
     val firstName: String,
     val lastName: String,
     val dateOfBirth: LocalDate,
