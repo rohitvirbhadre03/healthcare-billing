@@ -6,6 +6,7 @@ import com.linx.billing.repository.InMemoryDoctorRepository
 import java.time.LocalDate
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class DoctorServiceTest {
 
@@ -17,6 +18,17 @@ class DoctorServiceTest {
         val doctor = doctorWithNpi("1234567890")
         service.register(doctor)
         assertEquals(doctor, repository.findByNpi("1234567890"))
+    }
+
+    @Test
+    fun `duplicate NPI is rejected`() {
+        val first = doctorWithNpi("1234567890")
+        service.register(first)
+
+        assertFailsWith<IllegalStateException> {
+            service.register(first.copy(firstName = "Ravi"))
+        }
+        assertEquals(first, repository.findByNpi("1234567890"))
     }
 
     private fun doctorWithNpi(npi: String) =
