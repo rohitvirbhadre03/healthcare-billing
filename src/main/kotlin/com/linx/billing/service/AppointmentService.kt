@@ -20,4 +20,10 @@ class AppointmentService(
         val appointment = Appointment(UUID.randomUUID().toString(), patientId, npi, scheduledAt)
         return appointmentRepository.save(appointment)
     }
+
+    fun complete(appointmentId: String): Appointment =
+        appointmentRepository.save(findAppointment(appointmentId).complete())
+
+    private fun findAppointment(id: String): Appointment =
+        appointmentRepository.findById(id) ?: throw NotFoundException("Appointment $id not found")
 }

@@ -37,4 +37,11 @@ class AppointmentServiceTest {
         assertEquals(appointment, appointments.findById(appointment.id))
     }
 
+    @Test
+    fun `completing an appointment`() {
+        val booked = service.book("P1", "1234567890", visitTime)
+        service.complete(booked.id)
+        assertEquals(AppointmentStatus.COMPLETE, appointments.findById(booked.id)?.status)
+    }
+
 }
