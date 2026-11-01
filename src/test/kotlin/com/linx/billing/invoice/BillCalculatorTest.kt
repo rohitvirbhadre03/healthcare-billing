@@ -4,7 +4,6 @@ import com.linx.billing.discount.Discount
 import com.linx.billing.insurance.Insurance
 import com.linx.billing.model.Doctor
 import com.linx.billing.pricing.FeeStructure
-import com.linx.billing.pricing.FeeStructureTest
 import com.linx.billing.pricing.Speciality
 import com.linx.billing.tax.Gst
 import java.math.BigDecimal
@@ -59,6 +58,12 @@ class BillCalculatorTest {
     fun `fee calculated from the doctors specialty and experience`() {
         val bill = calculator.calculate(cardio, LocalDate.of(2025, 6, 15), priorVisits = 0)
         assertEquals(BigDecimal("1500"), bill.consultationFee)
+    }
+
+    @Test
+    fun `discount calculated from prior visits`() {
+        val bill = calculator.calculate(cardio, LocalDate.of(2025, 6, 15), priorVisits = 14)
+        assertEquals(10, bill.discountPercent)
     }
 
 }
