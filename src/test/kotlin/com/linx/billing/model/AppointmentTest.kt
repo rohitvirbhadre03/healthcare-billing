@@ -3,6 +3,7 @@ package com.linx.billing.model
 import java.time.LocalDateTime
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class AppointmentTest {
 
@@ -27,4 +28,17 @@ class AppointmentTest {
     fun `cancel appointment`() {
         assertEquals(AppointmentStatus.CANCELLED, appointment.cancel().status)
     }
+
+    @Test
+    fun `completed appointment cannot be cancelled`() {
+        val completed = appointment.complete()
+        assertFailsWith<IllegalStateException> { completed.cancel() }
+    }
+
+    @Test
+    fun `cancelled appointment cannot be completed`() {
+        val cancelled = appointment.cancel()
+        assertFailsWith<IllegalStateException> { cancelled.complete() }
+    }
+
 }

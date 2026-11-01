@@ -10,7 +10,12 @@ data class Appointment(
     val status: AppointmentStatus = AppointmentStatus.SCHEDULED,
 ) {
 
-    fun complete(): Appointment = copy(status = AppointmentStatus.COMPLETE)
+    fun complete(): Appointment = changeStatus(AppointmentStatus.COMPLETE)
 
-    fun cancel(): Appointment = copy(status = AppointmentStatus.CANCELLED)
+    fun cancel(): Appointment = changeStatus(AppointmentStatus.CANCELLED)
+
+    private fun changeStatus(newStatus: AppointmentStatus): Appointment {
+        check(status == AppointmentStatus.SCHEDULED) { "Appointment $id is already $status" }
+        return copy(status = newStatus)
+    }
 }
