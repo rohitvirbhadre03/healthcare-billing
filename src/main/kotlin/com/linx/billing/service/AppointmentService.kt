@@ -24,6 +24,9 @@ class AppointmentService(
     fun complete(appointmentId: String): Appointment =
         appointmentRepository.save(findAppointment(appointmentId).complete())
 
+    fun cancel(appointmentId: String): Appointment =
+        appointmentRepository.save(findAppointment(appointmentId).cancel())
+
     private fun findAppointment(id: String): Appointment =
         appointmentRepository.findById(id) ?: throw NotFoundException("Appointment $id not found")
 }

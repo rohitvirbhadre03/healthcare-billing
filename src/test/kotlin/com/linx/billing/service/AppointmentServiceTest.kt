@@ -44,4 +44,11 @@ class AppointmentServiceTest {
         assertEquals(AppointmentStatus.COMPLETE, appointments.findById(booked.id)?.status)
     }
 
+    @Test
+    fun `cancel an appointment`() {
+        val booked = service.book("P1", "1234567890", visitTime)
+        service.cancel(booked.id)
+        assertEquals(AppointmentStatus.CANCELLED, appointments.findById(booked.id)?.status)
+    }
+
 }
