@@ -11,6 +11,8 @@ class InMemoryAppointmentRepositoryTest {
 
     private val repository = InMemoryAppointmentRepository()
 
+    private val visitTime = LocalDateTime.of(2025, 6, 15, 10, 30)
+
     @Test
     fun `find appointment by id`() {
         val appointment = appointment("A1", "P1", LocalDateTime.of(2026, 9, 15, 10, 30))
@@ -21,6 +23,13 @@ class InMemoryAppointmentRepositoryTest {
     @Test
     fun `unknown appointment returns null`() {
         assertNull(repository.findById("missing"))
+    }
+
+    @Test
+    fun `counts completed visits of the patient`() {
+        repository.save(appointment("A1", "P1", LocalDateTime.of(2025, 1, 10, 9, 0), AppointmentStatus.COMPLETE))
+        repository.save(appointment("A2", "P1", LocalDateTime.of(2025, 3, 5, 9, 0), AppointmentStatus.COMPLETE))
+        assertEquals(2, repository.countCompletedVisits("P1", visitTime))
     }
 
     private fun appointment(
