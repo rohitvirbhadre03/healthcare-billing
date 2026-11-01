@@ -7,5 +7,6 @@ data class Bill(
     val discountPercent: Int,
     val discountAmount: BigDecimal,
     val taxableAmount: BigDecimal,
+    val gstAmount: BigDecimal,
     val totalAmount: BigDecimal,
 )
