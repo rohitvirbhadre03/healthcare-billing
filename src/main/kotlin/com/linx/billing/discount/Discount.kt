@@ -1,4 +1,4 @@
-package com.linx.billing.dicount
+package com.linx.billing.discount
 
 class Discount {
     fun percentage(priorVisits: Int): Int =

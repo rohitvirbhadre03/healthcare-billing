@@ -1,4 +1,4 @@
-package com.linx.billing.dicount
+package com.linx.billing.discount
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
