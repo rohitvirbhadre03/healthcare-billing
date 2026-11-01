@@ -10,6 +10,8 @@ import com.linx.billing.repository.InMemoryAppointmentRepository
 import com.linx.billing.repository.InMemoryDoctorRepository
 import com.linx.billing.repository.InMemoryPatientRepository
 import com.linx.billing.service.AppointmentService
+import com.linx.billing.service.BillingService
+import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
 import kotlin.test.BeforeTest
@@ -21,7 +23,8 @@ class AppointmentControllerTest {
     private val appointments = InMemoryAppointmentRepository()
     private val patients = InMemoryPatientRepository()
     private val doctors = InMemoryDoctorRepository()
-    private val controller = AppointmentController(AppointmentService(appointments, patients, doctors))
+    private val controller = AppointmentController(AppointmentService(appointments, patients, doctors),
+        BillingService(appointments, doctors),)
 
     private val visitTime = LocalDateTime.of(2025, 6, 15, 10, 30)
 
@@ -54,5 +57,22 @@ class AppointmentControllerTest {
         val booked = controller.book(AppointmentRequest("P1", "1234567890", visitTime))
         val response = controller.cancel(booked.id)
         assertEquals(AppointmentStatus.CANCELLED, response.status)
+    }
+
+    @Test
+    fun `bill includes the discount for visits`() {
+        listOf(1, 2, 3).forEach { month ->
+            val earlier = controller.book(AppointmentRequest("P1", "1234567890", LocalDateTime.of(2025, month, 10, 9, 0)))
+            controller.complete(earlier.id)
+        }
+        val today = controller.book(AppointmentRequest("P1", "1234567890", visitTime))
+
+        val bill = controller.bill(today.id)
+
+        assertEquals(BigDecimal("1500"), bill.consultationFee)
+        assertEquals(3, bill.discountPercent)
+        assertEquals(BigDecimal("1629.60"), bill.totalAmount)
+        assertEquals(BigDecimal("1466.64"), bill.insuranceApprovedAmount)
+        assertEquals(BigDecimal("162.96"), bill.copayAmount)
     }
 }

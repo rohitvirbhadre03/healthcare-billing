@@ -2,16 +2,22 @@ package com.linx.billing.controller
 
 import com.linx.billing.dto.AppointmentRequest
 import com.linx.billing.dto.AppointmentResponse
+import com.linx.billing.dto.BillResponse
 import com.linx.billing.service.AppointmentService
+import com.linx.billing.service.BillingService
 import io.micronaut.http.HttpStatus
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.PathVariable
 import io.micronaut.http.annotation.Post
 import io.micronaut.http.annotation.Status
 
 @Controller("/appointments")
-class AppointmentController(private val appointmentService: AppointmentService) {
+class AppointmentController(
+    private val appointmentService: AppointmentService,
+    private val billingService: BillingService,
+) {
 
     @Post
     @Status(HttpStatus.CREATED)
@@ -25,4 +31,8 @@ class AppointmentController(private val appointmentService: AppointmentService) 
     @Post("/{id}/cancel")
     fun cancel(@PathVariable id: String): AppointmentResponse =
         AppointmentResponse.from(appointmentService.cancel(id))
+
+    @Get("/{id}/bill")
+    fun bill(@PathVariable id: String): BillResponse =
+        BillResponse.from(billingService.generateBill(id))
 }
