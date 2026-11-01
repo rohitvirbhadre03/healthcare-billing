@@ -41,4 +41,18 @@ class AppointmentControllerTest {
         assertEquals(visitTime, response.scheduledAt)
         assertEquals(AppointmentStatus.SCHEDULED, response.status)
     }
+
+    @Test
+    fun `completing returns the appointment as complete`() {
+        val booked = controller.book(AppointmentRequest("P1", "1234567890", visitTime))
+        val response = controller.complete(booked.id)
+        assertEquals(AppointmentStatus.COMPLETE, response.status)
+    }
+
+    @Test
+    fun `cancelling returns the appointment as cancelled`() {
+        val booked = controller.book(AppointmentRequest("P1", "1234567890", visitTime))
+        val response = controller.cancel(booked.id)
+        assertEquals(AppointmentStatus.CANCELLED, response.status)
+    }
 }
